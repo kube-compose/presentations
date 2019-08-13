@@ -1,6 +1,19 @@
 version: '3'
+
 services:
-  demo:
-    image: demo:latest
+
+  frontend:
+    image: frontend:latest
+    depends_on: 
+      backend:
+        condition: service_health
     ports:
       - "8080:8080"
+
+  backend:
+    image: backend:latest
+    environment:
+      - AUTH_ID=${AUTH_ID}
+      - AUTH_TOKEN=${AUTH_TOKEN}
+    ports:
+      - "8081:8081"
