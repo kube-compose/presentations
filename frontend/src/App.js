@@ -20,7 +20,13 @@ export default class App extends Component {
   }
 
   onSubmit = fields => {
-    axios.post('http://localhost:8081/send', fields)
+    let config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    }
+    axios.post('http://localhost:8081/send', fields, config)
       .then(res => {
         console.log(res)
       })

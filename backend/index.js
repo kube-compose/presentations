@@ -1,10 +1,22 @@
+const bodyParser = require('body-parser')
 const express = require('express')
 const plivo = require('plivo');
+const cors = require('cors')
 const app = express()
+
 
 const client = new plivo.Client(process.env.AUTH_ID, process.env.AUTH_TOKEN);
 
 const port = process.env.PORT || 8081
+
+// handle cors
+app.use(cors())
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
 
 app.post('/send', async (req, res) => {
     if (req.method === 'OPTIONS') {
@@ -18,13 +30,13 @@ app.post('/send', async (req, res) => {
         response.status(204).send('');
     } else {
         console.log(req.body)
-        let message = await client.messages.create(
+        let msg = await client.messages.create(
             req.body.source,
             req.body.destination,
             req.body.message
         )
         res.set('Access-Control-Allow-Origin', '*')
-        res.send(`Message Sent: ${message}`)
+        res.send('Message Sent: ' + msg)
     }
 })
 
