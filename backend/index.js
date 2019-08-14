@@ -36,7 +36,7 @@ app.post('/send', async (req, res) => {
             req.body.message
         )
         res.set('Access-Control-Allow-Origin', '*')
-        res.send('Message Sent: ' + msg)
+        res.send('Message Sent: ' + JSON.stringify(msg))
     }
 })
 
